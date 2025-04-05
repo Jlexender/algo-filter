@@ -21,6 +21,10 @@ func (bs *Bitset) Size() int32 {
 	return bs.bitsize
 }
 
+func (bs *Bitset) List() []byte {
+	return bs.bits
+}
+
 func (bs *Bitset) Set(index int32) error {
 	if index >= bs.Size() {
 		return fmt.Errorf("index out of range: %d", index)

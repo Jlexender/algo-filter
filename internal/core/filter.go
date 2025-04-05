@@ -18,6 +18,10 @@ func (bf *BloomFilter) Size() int32 {
 	return bf.bs.Size()
 }
 
+func (bf *BloomFilter) List() *util.Bitset {
+	return bf.bs
+}
+
 func (bf *BloomFilter) Insert(data string) {
 	for _, hash := range bf.H {
 		bf.bs.Set(hash(data))

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"alex/bvs/internal/console"
 )
 
 func main() {
@@ -13,5 +14,5 @@ func main() {
 		return
 	}
 
-	
+	console.HandleCmd(argv[1], argv[2])
 }
