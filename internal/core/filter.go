@@ -1,6 +1,9 @@
 package core
 
-import "alex/bvs/internal/util"
+import (
+	"alex/bvs/internal/util"
+	"math/bits"
+)
 
 type BloomFilter struct {
 	bs *util.Bitset
@@ -23,17 +26,25 @@ func (bf *BloomFilter) List() *util.Bitset {
 }
 
 func (bf *BloomFilter) Insert(data string) {
+	bitset := bf.List()
+
 	for _, hash := range bf.H {
-		bf.bs.Set(hash(data))
+		hashsum := hash(data)
+		bitset.Set(hashsum % bitset.Size())
 	}
 }
 
 func (bf *BloomFilter) Exists(data string) bool {
+	bitset := bf.List()
+
 	for _, hash := range bf.H {
-		v := hash(data)
-		if !bf.bs.IsSet(v) {
+		hashsum := hash(data)
+
+		set, _ := bitset.IsSet(hashsum % bitset.Size())
+		if !set {
 			return false
 		}
 	}
+
 	return true
 }

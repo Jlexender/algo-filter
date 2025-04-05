@@ -52,10 +52,10 @@ func (bs *Bitset) Toggle(index int32) error {
 	return nil
 }
 
-func (bs *Bitset) IsSet(index int32) bool {
+func (bs *Bitset) IsSet(index int32) (bool, error) {
 	if index >= bs.Size() {
-		return false
+		return false, fmt.Errorf("index out of range: %d", index)
 	}
 
-	return (bs.bits[index/8] & (1 << (index % 8))) != 0
+	return (bs.bits[index/8] & (1 << (index % 8))) != 0, nil
 }

@@ -6,7 +6,8 @@ func HashList() []func(string) int32 {
 	}
 }
 
-// Note: this is a mock hash function. Use it only for dev!
+// Note: this is a mock hash function. 
+// Use it only for dev!
 func mock(s string) int32 {
 	return 1488_666
 }
