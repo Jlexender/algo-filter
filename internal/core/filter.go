@@ -10,8 +10,12 @@ type BloomFilter struct {
 func NewBloomFilter(size int32) *BloomFilter {
 	return &BloomFilter{
 		bs: util.NewBitset(size),
-		H: HashList(),
+		H:  HashList(),
 	}
+}
+
+func (bf *BloomFilter) Size() int32 {
+	return bf.bs.Size()
 }
 
 func (bf *BloomFilter) Insert(data string) {

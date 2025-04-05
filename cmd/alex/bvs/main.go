@@ -9,7 +9,7 @@ func main() {
 	argv := os.Args
 
 	if len(argv) != 3 {
-		fmt.Println("Usage: bloomvs <new|load> <file>")
+		fmt.Println("Usage: bvs <new|load> <file>")
 		return
 	}
 
