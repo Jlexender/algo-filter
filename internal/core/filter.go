@@ -2,7 +2,6 @@ package core
 
 import (
 	"alex/bvs/internal/util"
-	"math/bits"
 )
 
 type BloomFilter struct {
