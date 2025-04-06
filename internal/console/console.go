@@ -2,10 +2,7 @@ package console
 
 import (
 	"alex/bvs/internal/core"
-	"bytes"
 	"fmt"
-	"log"
-	"time"
 )
 
 func HandleCmd(command, path string) {
@@ -15,7 +12,8 @@ func HandleCmd(command, path string) {
 	case "new":
 		NewFile(path)
 		var fsize int32
-		fmt.Scanf("Please, enter the filter size: %d", &fsize)
+		fmt.Print("size: ")
+		fmt.Scan(&fsize)
 
 		bytes = make([]byte, (fsize+7)/8)
 	case "load":
@@ -28,10 +26,25 @@ func HandleCmd(command, path string) {
 
 func Run(bytes []byte) {
 	bf := core.BloomFilterFromBytes(bytes)
+	bf.Exists("0")
 	
+	var command string
+	for command != "." {
+		fmt.Print("> ")
+		fmt.Scanln(&command)
 
-	log.Printf("App is running...")
-	time.Sleep(time.Second * 5)
-
-	log.Printf("App stopped.")
+		switch (command) {
+		case "?":
+			fmt.Println("HELP")
+		case "i":
+			var val string
+			fmt.Scan(&val)
+			fmt.Printf("insert '%s'\n", val)
+		case ".":
+			fmt.Println("exit")
+		}
+	}
 }
+
+
+

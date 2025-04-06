@@ -1,18 +1,22 @@
 package main
 
 import (
+	"alex/bvs/internal/console"
 	"fmt"
 	"os"
-	"alex/bvs/internal/console"
 )
 
 func main() {
 	argv := os.Args
 
 	if len(argv) != 3 {
-		fmt.Println("Usage: bvs <new|load> <file>")
+		usage()
 		return
 	}
 
 	console.HandleCmd(argv[1], argv[2])
+}
+
+func usage() {
+	fmt.Println("Usage: bvs <new|load> <file>")
 }
