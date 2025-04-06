@@ -4,7 +4,7 @@ Nothing but an implementation of a bloom filter for A&DS course.
 
 ## How to use
 
-* `go run cmd/alex/bvs/main.go [new|load] [file]` to create a new bloom filter or load an existing one from a file 
+* `./bvs [new|load] [file]` to create a new bloom filter or load an existing one from a file 
 
 * CLI arguments:
   * `insert` - insert a value into the bloom filter
