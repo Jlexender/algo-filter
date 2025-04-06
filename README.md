@@ -16,5 +16,5 @@ Nothing but an implementation of a bloom filter for A&DS course.
 ## Features
 - Bloom filter with 2^32 bits of storage
 - Compressed storage using bitsets
-- Alternative hashing algorithms provided
+
 
