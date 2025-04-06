@@ -32,19 +32,19 @@ func Run(bytes []byte) {
 	
 	ls := bufio.NewScanner(os.Stdin)
 	var command string
-	for command != "." {
+	for command != "exit" {
 		fmt.Scan(&command)
 		
 		switch command {
-		case "!":
+		case "insert":
 			ls.Scan()
 			bf.Insert(ls.Text())
 			fmt.Println("ok")
-		case "?":
+		case "check":
 			ls.Scan()
 			fmt.Println(bf.Exists(ls.Text()))
 		default:
-			fmt.Println("Commands: ! to insert, ? to check existence, . to exit")
+			fmt.Println("Commands: insert, check, exit")
 		}
 	}
 }
