@@ -2,7 +2,9 @@ package console
 
 import (
 	"alex/bvs/internal/core"
+	"bufio"
 	"fmt"
+	"os"
 )
 
 func HandleCmd(command, path string) {
@@ -28,20 +30,21 @@ func Run(bytes []byte) {
 	bf := core.BloomFilterFromBytes(bytes)
 	bf.Exists("0")
 	
+	ls := bufio.NewScanner(os.Stdin)
 	var command string
 	for command != "." {
-		fmt.Print("> ")
-		fmt.Scanln(&command)
-
-		switch (command) {
+		fmt.Scan(&command)
+		
+		switch command {
+		case "!":
+			ls.Scan()
+			bf.Insert(ls.Text())
+			fmt.Println("ok")
 		case "?":
-			fmt.Println("HELP")
-		case "i":
-			var val string
-			fmt.Scan(&val)
-			fmt.Printf("insert '%s'\n", val)
-		case ".":
-			fmt.Println("exit")
+			ls.Scan()
+			fmt.Println(bf.Exists(ls.Text()))
+		default:
+			fmt.Println("Commands: ! to insert, ? to check existence, . to exit")
 		}
 	}
 }
