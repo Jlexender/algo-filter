@@ -16,6 +16,13 @@ func NewBloomFilter(size int32) *BloomFilter {
 	}
 }
 
+func BloomFilterFromBytes(bytes []byte) *BloomFilter {
+	return &BloomFilter{
+		bs: util.BitsetFromBytes(bytes),
+		H:  HashList(),
+	}
+}
+
 func (bf *BloomFilter) Size() int32 {
 	return bf.bs.Size()
 }

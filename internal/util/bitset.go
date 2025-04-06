@@ -17,6 +17,13 @@ func NewBitset(bitsize int32) *Bitset {
 	}
 }
 
+func BitsetFromBytes(bytes []byte) *Bitset {
+	return &Bitset{
+		bits:    bytes,
+		bitsize: int32(len(bytes) * 8),
+	}
+}
+
 func (bs *Bitset) Size() int32 {
 	return bs.bitsize
 }
