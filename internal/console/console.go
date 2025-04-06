@@ -43,8 +43,10 @@ func Run(bytes []byte) {
 		case "check":
 			ls.Scan()
 			fmt.Println(bf.Exists(ls.Text()))
+		case "exit":
+			fmt.Println("ok save & exit")
 		default:
-			fmt.Println("Commands: insert, check, exit")
+			fmt.Println("commands: insert, check, exit")
 		}
 	}
 }
