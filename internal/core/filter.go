@@ -6,10 +6,10 @@ import (
 
 type BloomFilter struct {
 	bs *util.Bitset
-	H  []func(string) int32
+	H  []func(string) uint32
 }
 
-func NewBloomFilter(size int32) *BloomFilter {
+func NewBloomFilter(size uint32) *BloomFilter {
 	return &BloomFilter{
 		bs: util.NewBitset(size),
 		H:  HashList(),
@@ -23,7 +23,7 @@ func BloomFilterFromBytes(bytes []byte) *BloomFilter {
 	}
 }
 
-func (bf *BloomFilter) Size() int32 {
+func (bf *BloomFilter) Size() uint32 {
 	return bf.bs.Size()
 }
 

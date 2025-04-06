@@ -5,24 +5,24 @@ import (
 	"encoding/binary"
 )
 
-func HashList() []func(string) int32 {
-	return []func(string) int32{
+func HashList() []func(string) uint32 {
+	return []func(string) uint32{
 		polyhash,
 		sha1sum,
 	}
 }
 
-func polyhash(s string) int32 {
-	var hash int32 = 0
+func polyhash(s string) uint32 {
+	var hash uint32 = 0
 	for _, c := range s {
-		hash = hash*31 + int32(c)
+		hash = hash*31 + uint32(c)
 	}
 	return hash
 }
 
-func sha1sum(s string) int32 {
+func sha1sum(s string) uint32 {
 	h := sha1.New()
 	h.Write([]byte(s))
 	sum := h.Sum(nil)
-	return int32(binary.BigEndian.Uint32(sum[:4]))
+	return uint32(binary.BigEndian.Uint32(sum[:4]))
 }
