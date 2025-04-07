@@ -1,20 +1,10 @@
-# Bloom Value Storage
+# Blossom Value Storage
 
-Nothing but an implementation of a bloom filter for A&DS course.
-
-## How to use
-
-* `./bvs [new|load] [file]` to create a new bloom filter or load an existing one from a file 
-
-* CLI arguments:
-  * `insert` - insert a value into the bloom filter
-  * `check` - check if a value is in the bloom filter
-  * `exit` - exit the program
-* Program automatically saves the bloom filter to a file when exiting properly
-
+Nothing but an implementation of modification of the bloom filter for A&DS course.
 
 ## Features
-- Bloom filter with 2^32 bits of storage
-- Compressed storage using bitsets
+- Bloom filter as an idea; 2^32 bits of storage
+- Dynamically changing number of hashes based on number of inserted elements
+- Compressed storage with bitset
 
 
