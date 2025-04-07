@@ -97,6 +97,15 @@ func TestNilContains(t *testing.T) {
 	}
 }
 
+func TestInsertSameSprintf(t *testing.T) {
+	f := NewBloomFilter(16)
+
+	f.Insert("[1 2 3]")
+	if f.Contains([]byte{1, 2, 3}) {
+		t.Errorf("expected filter not to contain the byte slice '[1 2 3]', but it does")
+	}
+}
+
 // NOTE: further tests are AI-generated.
 func TestEmptyFilter(t *testing.T) {
 	f := NewBloomFilter(10)

@@ -3,6 +3,7 @@ package core
 import (
 	"alex/bvs/internal/util"
 	"fmt"
+	"reflect"
 )
 
 type BloomFilter struct {
@@ -13,7 +14,7 @@ type BloomFilter struct {
 
 // Object adapter
 func mapToBytes(obj any) []byte {
-	return []byte(fmt.Sprintf("%v", obj))
+	return []byte(fmt.Sprintf("%v.%v", reflect.TypeOf(obj), obj))
 }
 
 func NewBloomFilter(size uint32) *BloomFilter {
