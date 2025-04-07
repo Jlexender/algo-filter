@@ -8,7 +8,7 @@ import (
 type BloomFilter struct {
 	bs           *util.Bitset
 	hashes       []Hash
-	elementCount uint32
+	elements uint32
 }
 
 // Object adapter
