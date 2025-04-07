@@ -21,8 +21,8 @@ func TestStringInsert(t *testing.T) {
 	str := "hello!"
 	f.Insert(str)
 
-	if f.elementCount != 1 {
-		t.Errorf("expected element count to be 1, got %d", f.elementCount)
+	if f.elements != 1 {
+		t.Errorf("expected element count to be 1, got %d", f.elements)
 	}
 
 	if !f.Contains(str) {
@@ -58,13 +58,13 @@ func TestAnyInsert(t *testing.T) {
 		t.Errorf("expected filter to contain the element '%v', but it does not", p)
 	}
 
-	if f.elementCount != 2 {
-		t.Errorf("expected element count to be 2, got %d", f.elementCount)
+	if f.elements != 2 {
+		t.Errorf("expected element count to be 2, got %d", f.elements)
 	}
 
 	f.Insert(o)
-	if f.elementCount != 2 {
-		t.Errorf("expected element count to remain 2 after inserting duplicate, got %d", f.elementCount)
+	if f.elements != 2 {
+		t.Errorf("expected element count to remain 2 after inserting duplicate, got %d", f.elements)
 	}
 }
 
@@ -105,8 +105,8 @@ func TestEmptyFilter(t *testing.T) {
 		t.Errorf("expected empty filter not to contain any elements")
 	}
 
-	if f.elementCount != 0 {
-		t.Errorf("expected element count to be 0, got %d", f.elementCount)
+	if f.elements != 0 {
+		t.Errorf("expected element count to be 0, got %d", f.elements)
 	}
 }
 
@@ -115,8 +115,8 @@ func TestNilInsert(t *testing.T) {
 
 	f.Insert(nil)
 
-	if f.elementCount != 0 {
-		t.Errorf("expected element count to remain 0 after inserting nil, got %d", f.elementCount)
+	if f.elements != 0 {
+		t.Errorf("expected element count to remain 0 after inserting nil, got %d", f.elements)
 	}
 }
 
@@ -127,8 +127,8 @@ func TestDuplicateInsert(t *testing.T) {
 	f.Insert(data)
 	f.Insert(data)
 
-	if f.elementCount != 1 {
-		t.Errorf("expected element count to be 1 after inserting duplicate, got %d", f.elementCount)
+	if f.elements != 1 {
+		t.Errorf("expected element count to be 1 after inserting duplicate, got %d", f.elements)
 	}
 }
 
@@ -146,8 +146,8 @@ func TestLargeDataInsert(t *testing.T) {
 		t.Errorf("expected filter to contain the large data, but it does not")
 	}
 
-	if f.elementCount != 1 {
-		t.Errorf("expected element count to be 1, got %d", f.elementCount)
+	if f.elements != 1 {
+		t.Errorf("expected element count to be 1, got %d", f.elements)
 	}
 }
 

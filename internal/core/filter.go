@@ -24,7 +24,7 @@ func NewBloomFilter(size uint32) *BloomFilter {
 	return &BloomFilter{
 		bs:           util.NewBitset(size),
 		hashes:       NewHashList(size),
-		elementCount: 0,
+		elements: 0,
 	}
 }
 
@@ -34,11 +34,11 @@ func (bf *BloomFilter) Insert(data any) {
 	}
 
 	bitset := bf.bs
-	bf.elementCount++
+	bf.elements++
 	for _, hash := range bf.hashes {
 		hashsum := hash.Compute(mapToBytes(data))
 		bitset.Set(hashsum % bitset.Size())
-		bf.hashes = UpdateList(bf.hashes, bf.Size(), bf.elementCount)
+		bf.hashes = UpdateList(bf.hashes, bf.Size(), bf.elements)
 	}
 }
 
