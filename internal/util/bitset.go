@@ -1,6 +1,8 @@
 package util
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Bitset implementation, bit sequence packed in byte slice.
 // Similar to little endian, we'll store bits all in reverse

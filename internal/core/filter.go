@@ -17,6 +17,10 @@ func mapToBytes(obj any) []byte {
 }
 
 func NewBloomFilter(size uint32) *BloomFilter {
+	if size == 0 {
+		panic("size must be greater than 0")
+	}
+
 	return &BloomFilter{
 		bs:           util.NewBitset(size),
 		hashes:       NewHashList(size),
@@ -25,17 +29,20 @@ func NewBloomFilter(size uint32) *BloomFilter {
 }
 
 func (bf *BloomFilter) Insert(data any) {
-	bitset := bf.bs
+	if data == nil || bf.Contains(data) {
+		return
+	}
 
+	bitset := bf.bs
+	bf.elementCount++
 	for _, hash := range bf.hashes {
 		hashsum := hash.Compute(mapToBytes(data))
 		bitset.Set(hashsum % bitset.Size())
-		bf.elementCount++
-		UpdateList(bf.hashes, bf.Size(), bf.elementCount)
+		bf.hashes = UpdateList(bf.hashes, bf.Size(), bf.elementCount)
 	}
 }
 
-func (bf *BloomFilter) Exists(data string) bool {
+func (bf *BloomFilter) Contains(data any) bool {
 	bitset := bf.bs
 
 	for _, hash := range bf.hashes {
