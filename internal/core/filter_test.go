@@ -98,11 +98,55 @@ func TestNilContains(t *testing.T) {
 }
 
 func TestInsertSameSprintf(t *testing.T) {
-	f := NewBloomFilter(16)
+	f := NewBloomFilter(128)
 
 	f.Insert("[1 2 3]")
 	if f.Contains([]byte{1, 2, 3}) {
 		t.Errorf("expected filter not to contain the byte slice '[1 2 3]', but it does")
+	}
+
+	type pair struct {
+		a int
+		b string
+	}
+
+	p1 := pair{a: 1, b: "foo"}
+	p2 := pair{a: 1, b: "bar"}
+
+	f.Insert(p1)
+
+	if !f.Contains(p1) {
+		t.Errorf("expected filter to contain '%v', but it does not", p1)
+	}
+
+	if f.Contains(p2) {
+		t.Errorf("expected filter not to contain '%v', but it does", p2)
+	}
+
+	slice1 := []int{1, 2, 3}
+	slice2 := []int{3, 2, 1}
+
+	f.Insert(slice1)
+
+	if !f.Contains(slice1) {
+		t.Errorf("expected filter to contain '%v', but it does not", slice1)
+	}
+
+	if f.Contains(slice2) {
+		t.Errorf("expected filter not to contain '%v', but it does", slice2)
+	}
+
+	map1 := map[string]int{"x": 1, "y": 2}
+	map2 := map[string]int{"x": 2, "y": 1}
+
+	f.Insert(map1)
+
+	if !f.Contains(map1) {
+		t.Errorf("expected filter to contain '%v', but it does not", map1)
+	}
+
+	if f.Contains(map2) {
+		t.Errorf("expected filter not to contain '%v', but it does", map2)
 	}
 }
 
@@ -183,4 +227,88 @@ func TestInsertAfterContains(t *testing.T) {
 	if !f.Contains(data) {
 		t.Errorf("expected filter to contain '%s' after insertion", data)
 	}
+}
+
+func TestObjectAdapterStress(t *testing.T) {
+    f := NewBloomFilter(16384)
+
+    complexObjects := []any{
+        "[1 2 3]",
+        []byte{1, 2, 3},
+        123,
+        "hello world",
+
+        struct {
+            A int
+            B string
+        }{A: 42, B: "foo"},
+        struct {
+            A []int
+            B map[string]int
+        }{A: []int{1, 2, 3}, B: map[string]int{"x": 10, "y": 20}},
+
+        []int{1, 2, 3, 4, 5},
+        []int{5, 4, 3, 2, 1},
+
+        map[string]int{"a": 1, "b": 2, "c": 3},
+        map[string]int{"c": 3, "b": 2, "a": 1},
+
+        map[string]any{
+            "numbers": []int{10, 20, 30},
+            "nested": map[string]string{"foo": "bar", "baz": "qux"},
+        },
+        map[string]any{
+            "numbers": []int{10, 20, 30},
+            "nested": map[string]string{"baz": "qux", "foo": "bar"},
+        },
+
+        struct {
+            X []float64
+            Y string
+        }{X: []float64{3.14, 2.718, 1.618}, Y: "constants"},
+        struct {
+            X []float64
+            Y string
+        }{X: []float64{1.618, 2.718, 3.14}, Y: "constants"},
+    }
+
+    for _, obj := range complexObjects {
+        f.Insert(mapToBytes(obj))
+    }
+
+    for i := 0; i < 1000; i++ {
+        obj := complexObjects[i%len(complexObjects)]
+        if !f.Contains(mapToBytes(obj)) {
+            t.Errorf("Iteration %d: expected filter to contain '%v', but it does not", i, obj)
+        }
+    }
+
+    type testPair struct {
+        a int
+        b string
+    }
+
+    p1 := testPair{a: 1, b: "foo"}
+    f.Insert(mapToBytes(p1))
+
+    p2 := testPair{a: 1, b: "bar"}
+    if f.Contains(mapToBytes(p2)) {
+        t.Errorf("expected filter not to contain '%v', but it does", p2)
+    }
+
+    largeSlice := make([]int, 1000)
+    for i := 0; i < 1000; i++ {
+        largeSlice[i] = i
+    }
+    f.Insert(mapToBytes(largeSlice))
+    if !f.Contains(mapToBytes(largeSlice)) {
+        t.Errorf("expected filter to contain largeSlice, but it does not")
+    }
+
+    alteredSlice := make([]int, 1000)
+    copy(alteredSlice, largeSlice)
+    alteredSlice[500] = -1
+    if f.Contains(mapToBytes(alteredSlice)) {
+        t.Errorf("expected filter not to contain alteredSlice, but it does")
+    }
 }
